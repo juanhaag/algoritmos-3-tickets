@@ -1,9 +1,6 @@
 
 class ServiceManager:
-    """Class ServiceManager
-    """
-    # Attributes:
-    = None  # (list <>) 
+
     
     # Operations
     def create(self):
