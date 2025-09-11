@@ -10,13 +10,13 @@ from TicketManager import TicketManager
 class Ticket:
     """Class Ticket
     """
-    # Attributes:
-    TelephoneOperator = None  # () 
-    Client = None  # () 
-    ServiceRecord = None  # () 
-    incident = None  # () 
-    message = None  # () 
-    state = None  # () 
+
+    TelephoneOperator = None 
+    Client = None 
+    ServiceRecord = None 
+    incident = None 
+    message = None 
+    state = None 
     
-    # Operations
+
 

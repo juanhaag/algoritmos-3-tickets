@@ -4,7 +4,4 @@ from Service import Service
 class ServiceRecord:
     """Class ServiceRecord
     """
-    # Attributes:
-    
-    # Operations
 
