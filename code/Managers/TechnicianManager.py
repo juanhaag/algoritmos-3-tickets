@@ -3,43 +3,40 @@ from Technician import Technician
 class TechnicianManager:
     """Class TechnicianManager
     """
-    # Attributes:
-     = None  # (list <>) 
-    
-    # Operations
+
     def create(self):
         """function create
         
         returns 
         """
-        return None # should raise NotImplementedError()
+        return None 
     
     def modify(self):
         """function modify
         
         returns 
         """
-        return None # should raise NotImplementedError()
+        return None 
     
     def search(self):
         """function search
         
         returns 
         """
-        return None # should raise NotImplementedError()
+        return None 
     
     def list(self):
         """function list
         
         returns 
         """
-        return None # should raise NotImplementedError()
+        return None 
     
     def delete(self):
         """function delete
         
         returns 
         """
-        return None # should raise NotImplementedError()
+        return None 
     
 
