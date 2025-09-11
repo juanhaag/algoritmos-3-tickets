@@ -1,0 +1,5 @@
+
+class UnitEquipment:
+    """Class UnitEquipment
+    """
+

@@ -1,0 +1,4 @@
+
+class TelephoneOperator:
+    """Class TelephoneOperator
+    """
