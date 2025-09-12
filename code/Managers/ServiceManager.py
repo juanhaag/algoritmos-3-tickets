@@ -1,26 +1,28 @@
 from Models.Service import Service
 
 class ServiceManager:
-    def __init__(self):
+    def __init__(self, category_, categoryId_):
             self.Services = []
+            self.Category = category_
+            self.CategoryId = categoryId_
 
-    def create(self,description_, price_):
-        ServiceDescription = description_
-        ServicePrice = price_
-        nuevo_Service = Service(ServiceDescription, ServicePrice)
+    def create(self,Description_, Price_, ServiceId_, ServiceName_):
+        nuevo_Service = Service(Description_, Price_, ServiceId_, ServiceName_)
         self.Services.append(nuevo_Service)
 
 
-    def modify(self, Service_id, newName):
+    def modify(self, Service_id, newName_, newDescription_, newPrice_):
         Service = self.search(Service_id)
         if Service:
-            Service.name_Service = newName
+            Service.Name = newName_
+            Service.Description = newDescription_
+            Service.Price = newPrice_
         else:
             print("Service no encontrado")
 
     def search(self, Service_id):
         for Service in self.Services:
-            if Service.id_Service == Service_id:
+            if Service.Id == Service_id:
                 return Service
         return None
 
