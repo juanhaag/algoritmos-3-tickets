@@ -1,42 +1,41 @@
-from Technician import Technician
+from Models.Technician import Technician
 
 class TechnicianManager:
     """Class TechnicianManager
     """
 
-    def create(self):
-        """function create
-        
-        returns 
-        """
-        return None 
+    def __init__(self):
+        self.technicians = []
+
+    def create(self, id: str, name: str, surname: str, phone: str):
+
+        newTechnician = Technician(id, name, surname, phone)
+        self.technicians.append(newTechnician)
+
     
-    def modify(self):
-        """function modify
-        
-        returns 
-        """
-        return None 
+    def modify(self, id: str, name: str, surname: str, phone: str):
+        technician = self.search(id)
+        if technician:
+            technician.name = name
+            technician.surname = surname
+            technician.phone = phone
+        # else:
+            # print("Technician no encontrado")
     
-    def search(self):
-        """function search
-        
-        returns 
-        """
-        return None 
+    def search(self, id: str):
+        for technician in self.technicians:
+            if technician.id == id:
+                return technician
+            # else:
+                # print("Technician no encontrado")
+
     
     def list(self):
-        """function list
-        
-        returns 
-        """
-        return None 
+        return self.technicians
     
     def delete(self):
-        """function delete
-        
-        returns 
-        """
-        return None 
-    
-
+        technician = self.search(id)
+        if technician:
+            self.technicians.remove(technician)
+        # else:
+            # print("Technician no encontrado")    
