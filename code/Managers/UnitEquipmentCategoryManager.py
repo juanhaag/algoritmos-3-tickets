@@ -1,16 +1,17 @@
 
 class UnitEquipmentCategoryManager:
-    """Class UnitEquipmentCategoryManager
-    """
+    def __init__(self, id: int, name :str, description : str):
+        self.idUnitEquipmentCategories = id
+        self.nameUnitEquipmentCategories = name
+        self.descriptionUnitEquipmentCategories = description
+        self.UnitEquipmentCategories = []
 
-    
-    # Operations
-    def create(self):
-        """function create
+    def create(self, name_, description_):
+        nameUnitEquipmentCategories = name_
+        descriptionUnitEquipmentCategories = description_
+        newUnitEquipmentCategory = UnitEquipmentCategories(nameUnitEquipmentCategories,descriptionUnitEquipmentCategories)
+        self.UnitEquipmentCategories.append(newUnitEquipmentCategory)
         
-        returns 
-        """
-        return None 
     
     def modify(self):
         """function modify
@@ -40,6 +41,8 @@ class UnitEquipmentCategoryManager:
         """
         return None 
     
+
+    #######Controllers##################
     def index(self):
         """function index
         

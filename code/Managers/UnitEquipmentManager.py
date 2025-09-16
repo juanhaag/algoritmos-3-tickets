@@ -1,45 +1,47 @@
 from UnitEquipmentCategoryManager import UnitEquipmentCategoryManager
-from UnitEquipment import UnitEquipment
+from Models.UnitEquipment import UnitEquipment
 
 class UnitEquipmentManager:
-    """Class UnitEquipmentManager
-    """
+    def __init__(self):
+        self.UnitEquipments = []
+    
+    def create(self, model_: str, brand_: str,serial_number_: str):
+        modelUnitEquipment = model_
+        brandUnitEquipment = brand_
+        serial_numberUnitEquipment = serial_number_
+        new_UnitEquipment = UnitEquipment(modelUnitEquipment, brandUnitEquipment, serial_numberUnitEquipment)
+        self.UnitEquipments.append(new_UnitEquipment)
+        
+    
+    def modify(self, id_, newModel, newBrand, newSerialNumber):
+        unitEquipmentToModify = self.search(id_)
 
-    def create(self):
-        """function create
+        if unitEquipmentToModify:
+            unitEquipmentToModify.model = newModel
+            unitEquipmentToModify.brand = newBrand
+            unitEquipmentToModify.serial_number = newSerialNumber
+        else:
+            print("Equipo no se modificó correctamente")
+
+    def search(self, id_):
+        for UnitEquipment in self.UnitEquipments:
+            if id_ == UnitEquipment.id:
+                return UnitEquipment
+        return None
         
-        returns 
-        """
-        return None 
-    
-    def modify(self):
-        """function modify
-        
-        returns 
-        """
-        return None 
-    
-    def search(self):
-        """function search
-        
-        returns 
-        """
-        return None 
     
     def list(self):
-        """function list
-        
-        returns 
-        """
-        return None 
+        for UnitEquipment in self.UnitEquipments:
+            print(UnitEquipment)
     
-    def delete(self):
-        """function delete
-        
-        returns 
-        """
-        return None 
+    def delete(self, id_):
+        unitEquipment = self.search(id_)
+        if unitEquipment:
+            self.UnitEquipments.remove(unitEquipment)
+        else:
+            print("Equipo no encontrado")
     
+    #######Controllers##################
     def index(self):
         """function index
         
@@ -74,5 +76,6 @@ class UnitEquipmentManager:
         returns 
         """
         return None 
+    
     
 
