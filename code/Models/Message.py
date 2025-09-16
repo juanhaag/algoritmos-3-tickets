@@ -1,6 +1,3 @@
-
 class Message:
-    """Class Message
-    """
-  
-
+    def __init__(self):
+        pass
