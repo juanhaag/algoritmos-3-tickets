@@ -1,4 +1,4 @@
 
 class TelephoneOperator:
-    """Class TelephoneOperator
-    """
+    def __init__(self):
+        pass

@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect
 from Managers.ClientManager import ClientManager
 from Repositories.TicketRepository import TicketRepository
+from Database.database import DataBase
 
 app = Flask(__name__)
 client_manager = ClientManager()
 ticket_repo = TicketRepository()
+init_database = DataBase()
 
 @app.route("/")
 def home():

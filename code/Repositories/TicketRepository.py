@@ -1,10 +1,11 @@
 import sqlite3
 from pathlib import Path
-from ..Models.Ticket import Ticket
+from Models.Ticket import Ticket
 from datetime import datetime
+from Database.database import DataBase
 
 
-DB_PATH = Path(__file__).resolve().parent.parent / "tickets.db"
+DB_PATH = Path(__file__).resolve().parent.parent / "Ticketing.db"
 
 
 class TicketRepository:
@@ -20,7 +21,7 @@ class TicketRepository:
         cur = conn.cursor()
         cur.execute(
             """
-            CREATE TABLE IF NOT EXISTS tickets (
+            CREATE TABLE IF NOT EXISTS ticket (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 client TEXT,
                 incident TEXT,
