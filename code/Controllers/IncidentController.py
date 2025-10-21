@@ -15,6 +15,8 @@ def list_incidents():
     
     @return Una respuesta JSON con la lista de incidentes.
     ---
+    tags:
+      - Incidents
     parameters:
       - in: query
         name: ticket_id
