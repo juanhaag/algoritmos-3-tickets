@@ -120,31 +120,19 @@ curl http://localhost:5000/tickets
 ## 📁 Estructura del Proyecto
 
 ```
-AYED3
-│  code/
-│  ├── app.py                          # Aplicación principal
-│  ├── requirements.txt                # Dependencias
-│  ├── Database/
-│  │   └── database.py                # Configuración SQLAlchemy
-|  ├── Config/
-│  │   └── WorkshopLayout.py          
-│  ├── Models/
-│  │   ├── Ticket.py                  # Modelo Ticket
-│  │   └── Incident.py                # Modelo Incident
-│  ├── Tkinter/
-│  │   └── TkinterInterface.py                 
-│  ├── Controllers/
-│  │   ├── TicketController.py        # Controlador REST Tickets
-│  │   └── IncidentController.py      # Controlador REST Incidentes
-│  ├── Dijkstra/
-│  │   ├── Dijkstra.cpp        
-│  │   ├── Dijkstra.dll
-│  │   ├── compile.sh
-│  │   └── compile.bat            
-│  ├── templates/
-│  │    └── cliente_prueba.html        # Cliente web de prueba
-   ├──test_optimal_endpoints.py
-   └──use_workshop.py
+code/
+├── app.py                          # Aplicación principal
+├── requirements.txt                # Dependencias
+├── Database/
+│   └── database.py                # Configuración SQLAlchemy
+├── Models/
+│   ├── Ticket.py                  # Modelo Ticket
+│   └── Incident.py                # Modelo Incident
+├── Controllers/
+│   ├── TicketController.py        # Controlador REST Tickets
+│   └── IncidentController.py      # Controlador REST Incidentes
+└── templates/
+    └── cliente_prueba.html        # Cliente web de prueba
 ```
 
 ## 🎯 Objetivos Educativos
@@ -166,20 +154,3 @@ Para agregar más funcionalidades:
 4. Actualiza la documentación Swagger
 
 ---
-
-## Ejecutar Branch Integracion Dijkstra
-    cd dijkstra
-    # En Windows:
-    ./compile.bat
-    # En Linux/Mac:
-    chmod +x compile.sh
-    ./compile.sh
-
-## Ejecutar Migracion
-
-    cd Migration
-    python RunMigration.py
-
-# Probar Endpoints
-    En carpeta code: 
-      python test_optimal_endpoints.py
