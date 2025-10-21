@@ -3,39 +3,31 @@ class Technician:
     """Class Technician
     """
     def __init__(self, id: str, name: str, surname: str, phone: str):
-        self.id = id
-        self.name = name
-        self.surname = surname
-        self.phone = phone
+        self._id = id
+        self._name = name
+        self._surname = surname
+        self._phone = phone
 
     @property
-    def id(self):
-        return self.id
+    def id(self) -> str:
+        return self._id
     
     @property
-    def name(self):  
-        return self.name
+    def name(self) -> str:  
+        return self._name
     
     @property
-    def surname(self):
-        return self.surname
+    def surname(self) -> str:
+        return self._surname
     
     @property
-    def phone(self):
-        return self.phone
+    def phone(self) -> str:
+        return self._phone
     
-    @id.setter
-    def set_id(self, id: str):
-        self.id = id
-    
-    @name.setter
-    def set_name(self, name: str):
-        self.name = name
-    
-    @surname.setter
-    def set_surname(self, surname: str):
-        self.surname = surname
-    
-    @phone.setter
-    def set_phone(self, phone: str):
-        self.phone = phone
+    def to_dict(self) -> dict:
+        return {
+            "id": self._id,
+            "name": self._name,
+            "surname": self._surname,
+            "phone": self._phone,
+        }

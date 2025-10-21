@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente de Prueba - API Tickets e Incidentes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .response {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .ticket-item, .incident-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Cliente de Prueba - API REST Tickets e Incidentes</h1>
+        <p>Sistema simplificado con relación 1:N entre Tickets e Incidentes</p>
+    </div>
+
+    <!-- Sección de Tickets -->
+    <div class="container">
+        <h2>📋 Gestión de Tickets</h2>
+        
+        <div class="section">
+            <h3>Crear Nuevo Ticket</h3>
+            <div class="form-group">
+                <label for="ticket-title">Título:</label>
+                <input type="text" id="ticket-title" placeholder="Ej: Problema con el sistema">
+            </div>
+            <div class="form-group">
+                <label for="ticket-description">Descripción:</label>
+                <textarea id="ticket-description" rows="3" placeholder="Descripción detallada del problema"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ticket-client">Cliente:</label>
+                <input type="text" id="ticket-client" placeholder="Ej: Juan Pérez" value="Cliente Hardcodeado">
+            </div>
+            <div class="form-group">
+                <label for="ticket-telephone-operator">Operador Telefónico:</label>
+                <input type="text" id="ticket-telephone-operator" placeholder="Operador Hardcodeado" value="Operador Hardcodeado">
+            </div>
+            <div class="form-group">
+                <label for="ticket-technician">Técnico:</label>
+                <input type="text" id="ticket-technician" placeholder="Técnico Hardcodeado" value="Técnico Hardcodeado">
+            </div>
+            <div class="form-group">
+                <label for="ticket-unit-equipment">Equipo:</label>
+                <input type="text" id="ticket-unit-equipment" placeholder="Equipo Hardcodeado" value="Equipo Hardcodeado">
+            </div>
+            <div class="form-group">
+                <label for="ticket-state">Estado:</label>
+                <select id="ticket-state">
+                    <option value="open">Abierto</option>
+                    <option value="in_progress">En Progreso</option>
+                    <option value="resolved">Resuelto</option>
+                    <option value="closed">Cerrado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ticket-service-record">Registro de Servicio:</label>
+                <textarea id="ticket-service-record" rows="2" placeholder="Registro de servicio hardcodeado">Registro de servicio hardcodeado</textarea>
+            </div>
+            <div class="form-group">
+                <label for="ticket-message">Mensaje:</label>
+                <textarea id="ticket-message" rows="2" placeholder="Mensaje hardcodeado">Mensaje hardcodeado</textarea>
+            </div>
+            <button onclick="createTicket()">Crear Ticket</button>
+        </div>
+
+        <div class="section">
+            <h3>Listar Tickets</h3>
+            <button onclick="listTickets()">Obtener Todos los Tickets</button>
+            <div id="tickets-list"></div>
+        </div>
+
+        <div class="section">
+            <h3>Buscar Ticket por ID</h3>
+            <div class="form-group">
+                <label for="ticket-id">ID del Ticket:</label>
+                <input type="number" id="ticket-id" placeholder="1">
+            </div>
+            <button onclick="getTicket()">Buscar Ticket</button>
+        </div>
+    </div>
+
+    <!-- Sección de Incidentes -->
+    <div class="container">
+        <h2>⚠️ Gestión de Incidentes</h2>
+        
+        <div class="section">
+            <h3>Crear Nuevo Incidente</h3>
+            <div class="form-group">
+                <label for="incident-ticket-id">ID del Ticket:</label>
+                <input type="number" id="incident-ticket-id" placeholder="1">
+            </div>
+            <div class="form-group">
+                <label for="incident-description">Descripción:</label>
+                <textarea id="incident-description" rows="3" placeholder="Descripción del incidente"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="incident-priority">Prioridad:</label>
+                <select id="incident-priority">
+                    <option value="low">Baja</option>
+                    <option value="medium" selected>Media</option>
+                    <option value="high">Alta</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="incident-status">Estado:</label>
+                <select id="incident-status">
+                    <option value="open" selected>Abierto</option>
+                    <option value="in_progress">En Progreso</option>
+                    <option value="resolved">Resuelto</option>
+                    <option value="closed">Cerrado</option>
+                </select>
+            </div>
+            <button onclick="createIncident()">Crear Incidente</button>
+        </div>
+
+        <div class="section">
+            <h3>Listar Incidentes</h3>
+            <div class="form-group">
+                <label for="filter-ticket-id">Filtrar por Ticket ID (opcional):</label>
+                <input type="number" id="filter-ticket-id" placeholder="Dejar vacío para todos">
+            </div>
+            <button onclick="listIncidents()">Obtener Incidentes</button>
+            <div id="incidents-list"></div>
+        </div>
+
+        <div class="section">
+            <h3>Buscar Incidente por ID</h3>
+            <div class="form-group">
+                <label for="incident-id">ID del Incidente:</label>
+                <input type="number" id="incident-id" placeholder="1">
+            </div>
+            <button onclick="getIncident()">Buscar Incidente</button>
+        </div>
+    </div>
+
+    <!-- Área de Respuestas -->
+    <div class="container">
+        <h2>📤 Respuestas de la API</h2>
+        <div id="api-response" class="response" style="display: none;"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        
+        function showResponse(data, isError = false) {
+            const responseDiv = document.getElementById('api-response');
+            responseDiv.style.display = 'block';
+            responseDiv.className = `response ${isError ? 'error' : 'success'}`;
+            responseDiv.textContent = JSON.stringify(data, null, 2);
+        }
+
+        // Funciones para Tickets
+        async function createTicket() {
+            const data = {
+                title: document.getElementById('ticket-title').value,
+                description: document.getElementById('ticket-description').value,
+                client_name: document.getElementById('ticket-client').value,
+                telephone_operator_name: document.getElementById('ticket-telephone-operator').value,
+                technician_name: document.getElementById('ticket-technician').value,
+                unit_equipment_name: document.getElementById('ticket-unit-equipment').value,
+                state: document.getElementById('ticket-state').value,
+                service_record_description: document.getElementById('ticket-service-record').value,
+                message_content: document.getElementById('ticket-message').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/tickets`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                if (response.ok) {
+                    showResponse(result);
+                    listTickets(); // Actualizar la lista
+                } else {
+                    showResponse(result, true);
+                }
+            } catch (error) {
+                showResponse({error: error.message}, true);
+            }
+        }
+
+        async function listTickets() {
+            try {
+                const response = await fetch(`${API_BASE}/tickets`);
+                const tickets = await response.json();
+                
+                const listDiv = document.getElementById('tickets-list');
+                listDiv.innerHTML = '';
+                
+                tickets.forEach(ticket => {
+                    const ticketDiv = document.createElement('div');
+                    ticketDiv.className = 'ticket-item';
+                    ticketDiv.innerHTML = `
+                        <h4>Ticket #${ticket.id}: ${ticket.title}</h4>
+                        <p><strong>Cliente:</strong> ${ticket.client_name}</p>
+                        <p><strong>Operador Telefónico:</strong> ${ticket.telephone_operator_name}</p>
+                        <p><strong>Técnico:</strong> ${ticket.technician_name}</p>
+                        <p><strong>Equipo:</strong> ${ticket.unit_equipment_name}</p>
+                        <p><strong>Estado:</strong> ${ticket.state}</p>
+                        <p><strong>Registro de Servicio:</strong> ${ticket.service_record_description}</p>
+                        <p><strong>Mensaje:</strong> ${ticket.message_content}</p>
+                        <p><strong>Descripción:</strong> ${ticket.description}</p>
+                        <p><strong>Incidentes:</strong> ${ticket.incidents.length}</p>
+                        <p><strong>Creado:</strong> ${new Date(ticket.created_at).toLocaleString()}</p>
+                    `;
+                    listDiv.appendChild(ticketDiv);
+                });
+                
+                showResponse(tickets);
+            } catch (error) {
+                showResponse({error: error.message}, true);
+            }
+        }
+
+        async function getTicket() {
+            const ticketId = document.getElementById('ticket-id').value;
+            if (!ticketId) {
+                showResponse({error: 'Por favor ingrese un ID de ticket'}, true);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/tickets/${ticketId}`);
+                const ticket = await response.json();
+                
+                if (response.ok) {
+                    showResponse(ticket);
+                } else {
+                    showResponse(ticket, true);
+                }
+            } catch (error) {
+                showResponse({error: error.message}, true);
+            }
+        }
+
+        // Funciones para Incidentes
+        async function createIncident() {
+            const data = {
+                ticket_id: parseInt(document.getElementById('incident-ticket-id').value),
+                description: document.getElementById('incident-description').value,
+                priority: document.getElementById('incident-priority').value,
+                status: document.getElementById('incident-status').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/incidents`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                if (response.ok) {
+                    showResponse(result);
+                    listIncidents(); // Actualizar la lista
+                } else {
+                    showResponse(result, true);
+                }
+            } catch (error) {
+                showResponse({error: error.message}, true);
+            }
+        }
+
+        async function listIncidents() {
+            const ticketId = document.getElementById('filter-ticket-id').value;
+            let url = `${API_BASE}/incidents`;
+            if (ticketId) {
+                url += `?ticket_id=${ticketId}`;
+            }
+
+            try {
+                const response = await fetch(url);
+                const incidents = await response.json();
+                
+                const listDiv = document.getElementById('incidents-list');
+                listDiv.innerHTML = '';
+                
+                incidents.forEach(incident => {
+                    const incidentDiv = document.createElement('div');
+                    incidentDiv.className = 'incident-item';
+                    incidentDiv.innerHTML = `
+                        <h4>Incidente #${incident.id}</h4>
+                        <p><strong>Ticket ID:</strong> ${incident.ticket_id}</p>
+                        <p><strong>Prioridad:</strong> ${incident.priority}</p>
+                        <p><strong>Estado:</strong> ${incident.status}</p>
+                        <p><strong>Descripción:</strong> ${incident.description}</p>
+                        <p><strong>Creado:</strong> ${new Date(incident.created_at).toLocaleString()}</p>
+                    `;
+                    listDiv.appendChild(incidentDiv);
+                });
+                
+                showResponse(incidents);
+            } catch (error) {
+                showResponse({error: error.message}, true);
+            }
+        }
+
+        async function getIncident() {
+            const incidentId = document.getElementById('incident-id').value;
+            if (!incidentId) {
+                showResponse({error: 'Por favor ingrese un ID de incidente'}, true);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/incidents/${incidentId}`);
+                const incident = await response.json();
+                
+                if (response.ok) {
+                    showResponse(incident);
+                } else {
+                    showResponse(incident, true);
+                }
+            } catch (error) {
+                showResponse({error: error.message}, true);
+            }
+        }
+
+        // Cargar datos iniciales
+        window.onload = function() {
+            listTickets();
+            listIncidents();
+        };
+    </script>
+</body>
+</html>
