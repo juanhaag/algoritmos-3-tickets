@@ -1,30 +1,21 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 
-class DataBase:
-        
-    def __init__(self):
-        self.init_db()
+db = SQLAlchemy()
 
-    def get_db():
-            conn = sqlite3.connect('Ticketing.db')
-            conn.row_factory = sqlite3.Row
-            return conn
-
-    def init_db():
-            with DataBase.get_db() as conn:
-                    conn.execute("""
-                                CREATE TABLE IF NOT EXISTS ticket(
-                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                    client  TEXT NOT NULL,
-                                    incident  INT,
-                                    telephone_operator TEXT,
-                                    technician TEXT,
-                                    message TEXT,
-                                    unitequipment TEXT,
-                                    state TEXT,
-                                    service_record TEXT
-                                )
-                                """
-                    )
-                    conn.commit()
-                    conn.close()
+def init_db(app: Flask):
+    """
+    @brief Inicializa la base de datos y crea las tablas.
+    
+    @details Configura la URI de la base de datos y otras opciones de SQLAlchemy,
+             asocia la instancia de la base de datos con la aplicación Flask y
+             crea todas las tablas definidas en los modelos si no existen.
+    
+    @param app La instancia de la aplicación Flask.
+    """
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ticketing_simplified.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
+    
+    with app.app_context():
+        db.create_all()

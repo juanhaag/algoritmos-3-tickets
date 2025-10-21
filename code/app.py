@@ -1,97 +1,86 @@
-from flask import Flask, render_template, request, redirect
-from Managers.ClientManager import ClientManager
-from Repositories.TicketRepository import TicketRepository
-from Database.database import DataBase
+from flask import Flask
+from flasgger import Swagger
+from flask import render_template
+from Database.database import init_db
+from Controllers.TicketController import tickets_bp
+from Controllers.IncidentController import incidents_bp
 
 app = Flask(__name__)
-client_manager = ClientManager()
-ticket_repo = TicketRepository()
-init_database = DataBase()
+
+# Configurar Swagger
+swagger_config = {
+    "headers": [],
+    "specs": [
+        {
+            "endpoint": "apispec",
+            "route": "/apispec.json",
+            #"rule_filter": lambda rule: True,, descomentenla si quieren que se vea default con las rutas /pagina principal y /cliente-prueba
+            "rule_filter": lambda rule: not (
+                rule.rule in ["/", "/cliente-prueba", "/favicon.ico", "/apispec.json"]
+                or rule.rule.startswith("/flasgger_static")
+            ),
+            "model_filter": lambda tag: True,
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/swagger/",
+}
+
+# Plantilla para solucionar problema de visualización de Swagger UI con versiones recientes de Flask/Werkzeug.
+# Carga los assets desde un CDN (unpkg) en lugar de localmente.
+SWAGGER_TEMPLATE = {
+    "swagger_ui_bundle_js": "//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js",
+    "swagger_ui_standalone_preset_js": "//unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js",
+    "jquery_js": "//unpkg.com/jquery@2.2.4/dist/jquery.min.js",
+    "swagger_ui_css": "//unpkg.com/swagger-ui-dist@3/swagger-ui.css",
+    "tags": [
+        {"name": "Tickets", "description": "Operaciones CRUD sobre tickets"},
+        {"name": "Incidents", "description": "Operaciones CRUD sobre incidentes"},
+    ],
+}
+
+# Inicializar base de datos
+init_db(app)
+
+# Registrar blueprints ANTES de inicializar Swagger para que pueda descubrir los endpoints
+app.register_blueprint(tickets_bp)
+app.register_blueprint(incidents_bp)
+
+# Ahora inicializamos Swagger
+swagger = Swagger(app, config=swagger_config, template=SWAGGER_TEMPLATE)
+
 
 @app.route("/")
 def home():
-    return "Index page"
+    """Página principal
+    ---
+    responses:
+      200:
+        description: Mensaje de bienvenida
+    """
+    return {
+        "message": "API REST Simplificada - Sistema de Tickets e Incidentes",
+        "version": "1.0",
+        "endpoints": {
+            "tickets": "/tickets",
+            "incidents": "/incidents",
+            "swagger": "/swagger",
+            "cliente_prueba": "/cliente-prueba",
+        },
+    }
 
 
-@app.route("/login")
-def login():
-    return "Login page"
-
-#///////////PRUEBAS DE CLIENTE/////////////////////////////
-
-@app.route("/prueba-cliente")
-def prueba_cliente():
-    return render_template("prueba_cliente.html", clients=client_manager.list())
-
-
-
-@app.route("/prueba-cliente/create", methods=["POST"])
-def create_client():
-    client_manager.create()
-    return redirect("/prueba-cliente")
-
-
-@app.route("/prueba-cliente/modify", methods=["POST"])
-def modify_client():
-    client_id = int(request.form.get("id"))
-    new_name = request.form.get("newName")
-    client_manager.modify(client_id, new_name)
-    return redirect("/prueba-cliente")
-
-
-@app.route("/prueba-cliente/delete", methods=["POST"])
-def delete_client():
-    client_id = int(request.form.get("id"))
-    client_manager.delete(client_id)
-    return redirect("/prueba-cliente")
-
-
-#///////////PRUEBAS DE INCIDENTE/////////////////////////////
-
-@app.route("/prueba-incidente")
-def prueba_incidente():
-    return render_template("prueba_incidente.html")
-
-
-@app.route('/tickets', methods=['GET'])
-def list_tickets():
-    return ticket_repo.get_all()
-
-
-@app.route('/tickets', methods=['POST'])
-def create_ticket():
-    payload = request.get_json() or {}
-    client = payload.get('client')
-    incident = payload.get('incident')
-    message = payload.get('message', '')
-    ticket_id = ticket_repo.create(client=client, incident=incident, message=message)
-    return { 'id': ticket_id }, 201
-
-
-@app.route('/tickets/<int:ticket_id>', methods=['GET'])
-def get_ticket(ticket_id):
-    t = ticket_repo.get_by_id(ticket_id)
-    if not t:
-        return { 'error': 'Not found' }, 404
-    return t
-
-
-@app.route('/tickets/<int:ticket_id>', methods=['PUT'])
-def update_ticket(ticket_id):
-    payload = request.get_json() or {}
-    updated = ticket_repo.update(ticket_id, **payload)
-    if not updated:
-        return { 'error': 'Not found or no valid fields provided' }, 400
-    return { 'updated': True }
-
-
-@app.route('/tickets/<int:ticket_id>', methods=['DELETE'])
-def delete_ticket(ticket_id):
-    deleted = ticket_repo.delete(ticket_id)
-    if not deleted:
-        return { 'error': 'Not found' }, 404
-    return { 'deleted': True }
+@app.route("/cliente-prueba")
+def cliente_prueba():
+    """Cliente de prueba para la API
+    ---
+    responses:
+      200:
+        description: Interfaz web para probar la API
+    """
+    return render_template("cliente_prueba.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)

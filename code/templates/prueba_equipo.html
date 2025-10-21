@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prueba Equipo</title>
+</head>
+<body>
+    <h1>Equipos</h1>
+    <ul>
+        {% for e in equipments %}
+            <li>ID: {{ e._id }}, Modelo: {{ e._model }}, Marca: {{ e._brand }}, SN: {{ e._serial_number }}</li>
+        {% else %}
+            <li>No hay equipos</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Crear</h2>
+    <form action="/prueba-equipo/create" method="post">
+        <input type="number" name="id" placeholder="ID" required>
+        <input type="text" name="model" placeholder="Modelo" required>
+        <input type="text" name="brand" placeholder="Marca" required>
+        <input type="text" name="serial_number" placeholder="Serie">
+        <button type="submit">Crear</button>
+    </form>
+
+    <h2>Modificar</h2>
+    <form action="/prueba-equipo/modify" method="post">
+        <input type="number" name="id" placeholder="ID" required>
+        <input type="text" name="model" placeholder="Modelo">
+        <input type="text" name="brand" placeholder="Marca">
+        <input type="text" name="serial_number" placeholder="Serie">
+        <button type="submit">Modificar</button>
+    </form>
+
+    <h2>Eliminar</h2>
+    <form action="/prueba-equipo/delete" method="post">
+        <input type="number" name="id" placeholder="ID" required>
+        <button type="submit">Eliminar</button>
+    </form>
+</body>
+</html>
+
+
