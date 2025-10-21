@@ -64,6 +64,8 @@ def create_incident():
     
     @return Una respuesta JSON con el incidente creado y un código de estado 201.
     ---
+    tags:
+      - Incidents
     parameters:
       - in: body
         name: incident
@@ -142,6 +144,8 @@ def get_incident(incident_id):
     
     @return Una respuesta JSON con los datos del incidente o un 404 si no se encuentra.
     ---
+    tags:
+      - Incidents
     parameters:
       - in: path
         name: incident_id
@@ -169,6 +173,8 @@ def update_incident(incident_id):
     
     @return Una respuesta JSON con el incidente actualizado o un 404 si no se encuentra.
     ---
+    tags:
+      - Incidents
     parameters:
       - in: path
         name: incident_id
@@ -227,6 +233,8 @@ def delete_incident(incident_id):
     
     @return Una respuesta JSON confirmando la eliminación o un 404 si no se encuentra.
     ---
+    tags:
+      - Incidents
     parameters:
       - in: path
         name: incident_id

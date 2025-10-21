@@ -14,6 +14,8 @@ def list_tickets():
     
     @return Una respuesta JSON con la lista de tickets.
     ---
+    tags:
+      - Tickets
     responses:
       200:
         description: Lista de todos los tickets con sus incidentes
@@ -54,6 +56,8 @@ def create_ticket():
     
     @return Una respuesta JSON con el ticket creado y un código de estado 201.
     ---
+    tags:
+      - Tickets
     parameters:
       - in: body
         name: ticket
@@ -140,6 +144,8 @@ def get_ticket(ticket_id):
     
     @return Una respuesta JSON con los datos del ticket o un 404 si no se encuentra.
     ---
+    tags:
+      - Tickets
     parameters:
       - in: path
         name: ticket_id
@@ -167,6 +173,8 @@ def update_ticket(ticket_id):
     
     @return Una respuesta JSON con el ticket actualizado o un 404 si no se encuentra.
     ---
+    tags:
+      - Tickets
     parameters:
       - in: path
         name: ticket_id
@@ -244,6 +252,8 @@ def delete_ticket(ticket_id):
     
     @return Una respuesta JSON confirmando la eliminación o un 404 si no se encuentra.
     ---
+    tags:
+      - Tickets
     parameters:
       - in: path
         name: ticket_id
@@ -275,6 +285,8 @@ def get_optimal_workflow(ticket_id):
     
     @return Una respuesta JSON con la ruta óptima calculada.
     ---
+    tags:
+      - Tickets
     parameters:
       - in: path
         name: ticket_id
@@ -341,6 +353,8 @@ def move_to_next_step(ticket_id):
     
     @return Una respuesta JSON con la nueva ubicación y siguiente paso.
     ---
+    tags:
+      - Tickets
     parameters:
       - in: path
         name: ticket_id
@@ -449,6 +463,8 @@ def update_ticket_location(ticket_id):
     
     @return Una respuesta JSON con la nueva ubicación y siguiente paso.
     ---
+    tags:
+      - Tickets
     parameters:
       - in: path
         name: ticket_id
